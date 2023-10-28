@@ -1,3 +1,4 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:call_log/call_log.dart';
 
@@ -8,6 +9,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<CallLogEntry> _callLogEntries = [];
+  String? isim;
+  String? sirket;
 
   @override
   void initState() {
@@ -24,6 +27,34 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+Future<void> _getCallerInfo(String phoneNumber) async {
+  try {
+    // Telefon rehberinden kişiyi bul
+    Iterable<Contact> contacts = await ContactsService.getContactsForPhone(phoneNumber);
+
+    if (contacts.isNotEmpty) {
+      // Son arayan kişinin bilgilerini al
+      Contact lastCaller = contacts.first;
+      setState(() {
+        isim = lastCaller.displayName ?? 'Bilgi Yokk';
+        sirket = lastCaller.company ?? 'Bilgi Yokk';
+      });
+    } else {
+      // Eğer eşleşen kişi bulunamazsa, varsayılan değerleri kullan
+      setState(() {
+        isim = 'Bilgi Yokk';
+        sirket = 'Bilgi Yokk';
+      });
+    }
+  } catch (e) {
+    // Hata yakalama işlemi
+    debugPrint("Hata oluştu: $e");
+    isim = 'Bilgii';
+    // Hata olduğunda uygulamanın kapanmasını önlemek için gerekli önlemleri alabilirsiniz.
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,40 +65,38 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             Text(
               'Son Arayan Kişi:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
             ),
-            Text(
-              _callLogEntries.isNotEmpty
-                  ? _callLogEntries.first.name ?? 'Bilgi Yok'
-                  : 'Bilgi Yok',
-              style: TextStyle(fontSize: 18),
+            Text(isim??'bosisim'
             ),
             SizedBox(height: 20),
             Text(
               'Son Arayan Numara:',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
             ),
             Text(
               _callLogEntries.isNotEmpty
-                  ? _callLogEntries.first.formattedNumber ?? 'Bilgi Yok'
-                  : 'Bilgi Yok',
-              style: TextStyle(fontSize: 18),
+                  ? _callLogEntries.first.formattedNumber ?? 'Bilgi 1'
+                  : 'Bilgi 2',
+              style: TextStyle(fontSize: 18)
             ),
             SizedBox(height: 20),
-
-                        Text(
-              'Son Arayan Kişi:',
+            Text(
+              'Sirket:',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            Text(
-              _callLogEntries.isNotEmpty
-                  ? _callLogEntries.first.name ?? 'Bilgi Yok'
-                  : 'Bilgi Yok',
-              style: TextStyle(fontSize: 18),
-            ),
+            Text(sirket??'bossirket'),
             ElevatedButton(
-              onPressed: _fetchCallLog,
-              child: Text('Yeniden Getir'),
+              onPressed: () {
+                if (_callLogEntries.isNotEmpty) {
+                  String phoneNumber = _callLogEntries.first.number ?? '';
+                  _getCallerInfo(phoneNumber);
+                }
+                else{
+                  sirket = 'calllogbos';
+                }
+              },
+              child: Text('Kişi Bilgisini Al'),
             ),
           ],
         ),
