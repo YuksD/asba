@@ -1,16 +1,14 @@
-# ilkproje
+# note_recorder
 
-A new Flutter project.
+Take notes about last call.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## What does this app do?
 
-A few resources to get you started if this is your first Flutter project:
+- This is a Flutter app.
+- Finds last phone call.
+- Takes infos. (name, number, company, duration, date)
+- Has 2 textfields for subject and explanation.
+- Creates JSON file using all this information.
+- Sends JSON files to the DIA application.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
