@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:call_log/call_log.dart';
@@ -5,7 +8,7 @@ import 'package:ilkproje/components/caller_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ilkproje/constants/last_caller.dart';
 import 'package:ilkproje/constants/home_screen_strings.dart';
-
+import 'package:path_provider/path_provider.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -30,6 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _fetchCallLog(); // Uygulama başladığında çağrı kaydını getir.
   }
 
+Future<String> getJsonFilePath() async {
+  final directory = await getApplicationDocumentsDirectory();
+  return File('${directory.path}/assets/arayan.json').path;
+}
+
   Future<void> _fetchCallLog() async {
     final Iterable<CallLogEntry> entries = await CallLog.get();
     if (entries.isNotEmpty) {
@@ -38,7 +46,21 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
   }
-  
+ Future<void> sendEmailWithAttachment(String jsonFilePath) async {
+  final Email email = Email(
+    body: 'Ekte JSON dosyası bulunmaktadır.',
+    subject: 'JSON Dosyası',
+    recipients: ['yuks26@outlook.com'],
+    isHTML: false,
+    attachmentPaths: [jsonFilePath], // JSON dosyasının yolu
+  );
+
+  try {
+    await FlutterEmailSender.send(email);
+  } catch (error) {
+    print('E-posta gönderme hatası: $error');
+  }
+} 
   Future<void> _getCallerInfo(String phoneNumber, String konusmaSuresi, String konusmaTarihi) async {
 
       // Telefon rehberinden kişiyi bul
@@ -49,12 +71,23 @@ class _HomeScreenState extends State<HomeScreen> {
       if (contacts.isNotEmpty) {
         // Son arayan kişinin bilgilerini al
         Contact lastCaller = contacts.first;
-        setState(() {
+        setState(() async {
           tarih = konusmaTarihi;
           sure = konusmaSuresi;
           numara = phoneNumber;
           isim = lastCaller.displayName ?? LastCallerStrings.noData;
           sirket = lastCaller.company ?? LastCallerStrings.noData;
+          Map<String, dynamic> jsonData = {
+            'isim': isim ?? '',
+            'numara': numara ?? '',
+            'sirket': sirket ?? '',
+            'sure': sure ?? '',
+            'tarih': tarih ?? '',
+          };
+          String jsonStr = json.encode(jsonData);
+          final File file = File('assets/arayan.json');
+          await file.writeAsString(jsonStr);
+
         });
       } else {
         // Eğer eşleşen kişi bulunamazsa, varsayılan değerleri kullan
@@ -129,14 +162,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   spaceMedium(),
             
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_callLogEntries.isNotEmpty) {
                     String phoneNumber = _callLogEntries.first.number ?? LastCallerStrings.noData;
                     String konusmaSuresi = _callLogEntries.first.duration.toString();
                     String konusmaTarihi = DateTime.fromMillisecondsSinceEpoch(_callLogEntries.first.timestamp?? 1635400000000)
                     .toLocal().toString().split('.')[0].toString();
-                    _getCallerInfo(phoneNumber,konusmaSuresi,konusmaTarihi);}
+                    _getCallerInfo(phoneNumber,konusmaSuresi,konusmaTarihi);
+                    final jsonFilePath = await getJsonFilePath();
+                    await sendEmailWithAttachment(jsonFilePath);}
                   else {sirket = LastCallerStrings.emptyCallLog;}
+
                 },
                 child: const Text(HomeScreenStrings.pullLastCallerButton),
               ),
