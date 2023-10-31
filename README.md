@@ -1,4 +1,4 @@
-# last_callers_info_taker
+# note_recorder
 
 Take notes about last call.
 
