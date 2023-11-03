@@ -50,6 +50,18 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
+    
+    lintOptions {
+        warningsAsErrors true
+        checkReleaseBuilds false
+        // Diğer lint ayarları
+        lintConfig file("lint.xml")
+        disable 'InvalidPackage'
+        enable 'UnusedResources'
+        quiet true
+        // -Xlint:deprecation eklemek için:
+        check '-Xlint:deprecation'
+    }    
 
     buildTypes {
         release {
@@ -65,5 +77,8 @@ flutter {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.7.0' // veya daha yeni bir sürüm
+    implementation 'androidx.appcompat:appcompat:1.4.0' // veya daha yeni bir sürüm    
    // implementation 'com.github.grepx:contacts_service:0.6.3'
 }

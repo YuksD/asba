@@ -17,11 +17,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<CallLogEntry> _callLogEntries = [];
-  String? isim;
-  String? numara;
-  String? sirket;
-  String? sure;
-  String? tarih;
+  String isim = 'Abuziddin';
+  String numara = '05554443322';
+  String sirket = 'taksabaklak';
+  String sure = '671';
+  String tarih = '11:11:1111 11:11';
+
+  String isim2 = 'Usman';
+  String numara2 = '05255252525';
+  String sirket2 = 'Taklaci';
+  String sure2 = '1322';
+  String tarih2 = '12:12:1212 12:12';
 
 
   @override
@@ -140,6 +146,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: const Text(HomeScreenStrings.pullLastCallerButton),
               ),
+              ElevatedButton(onPressed: () {
+                 isim = isim2;
+                 numara = numara2;
+                 sirket = sirket2;
+                 sure = sure2;
+                 tarih = tarih2; 
+              }, child: const Text('İkinci Faz'))
             ],
           ),
         ),
