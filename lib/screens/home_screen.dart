@@ -6,11 +6,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:ilkproje/constants/last_caller.dart';
 import 'package:ilkproje/constants/home_screen_strings.dart';
 
-
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -22,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String sirket = 'taksabaklak';
   String sure = '671';
   String tarih = '11:11:1111 11:11';
+  String saat = '10:10:10';
 
   String isim2 = 'Usman';
   String numara2 = '05255252525';
@@ -29,6 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
   String sure2 = '1322';
   String tarih2 = '12:12:1212 12:12';
 
+  String konuAl = '';
+  String aciklamaAl = '';
+  
 
   @override
   void initState() {
@@ -45,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
   
-  Future<void> _getCallerInfo(String phoneNumber, String konusmaSuresi, String konusmaTarihi) async {
+  Future<void> _getCallerInfo(String phoneNumber, String konusmaSuresi, String konusmaTarihi, List<String> tarihVeSaat) async {
 
       // Telefon rehberinden kişiyi bul
       bool isGranted = await Permission.contacts.status.isGranted;
@@ -56,7 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
         // Son arayan kişinin bilgilerini al
         Contact lastCaller = contacts.first;
         setState(() {
-          tarih = konusmaTarihi;
+          //konu =konuAl;
+          tarih = tarihVeSaat[0];
+          saat = tarihVeSaat[10];
           sure = konusmaSuresi;
           numara = phoneNumber;
           isim = lastCaller.displayName ?? LastCallerStrings.noData;
@@ -83,27 +86,32 @@ class _HomeScreenState extends State<HomeScreen> {
               LastCallerInfo(
                 title: LastCallerStrings.name,
                 content: isim ?? LastCallerStrings.noData),
-              spaceMedium(),
+              spaceSmall(),
 
               LastCallerInfo(
                 title: LastCallerStrings.phoneNumber,
                 content: numara ?? LastCallerStrings.noData),
-              spaceMedium(),
+              spaceSmall(),
 
               LastCallerInfo(
                 title: LastCallerStrings.company,
                 content: sirket ?? LastCallerStrings.noData),
-              spaceMedium(),
+              spaceSmall(),
         
               LastCallerInfo(
                 title: LastCallerStrings.callDuration,
                 content: minSec(sure??'6000')),
-              spaceMedium(),
+              spaceSmall(),
               
               LastCallerInfo(
                 title: LastCallerStrings.callDate,
                 content: tarih ?? LastCallerStrings.noData),
-              spaceMedium(),
+              spaceSmall(),
+
+              LastCallerInfo(
+                title: LastCallerStrings.callHour,
+                content: saat ?? LastCallerStrings.noData),
+              spaceSmall(),
 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,6 +119,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8, // Ekranın yarısı kadar genişlik
                     child: TextField(
+                      onChanged: (String metin){
+                        konuAl = metin;
+                        debugPrint(konuAl);
+                      },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0)),
@@ -123,6 +135,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8, // Ekranın yarısı kadar genişlik
                     child: TextField(
+                      onChanged: (String metin){
+                        aciklamaAl = metin;
+                        debugPrint(aciklamaAl);
+                      },                      
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0)),
@@ -141,7 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     String konusmaSuresi = _callLogEntries.first.duration.toString();
                     String konusmaTarihi = DateTime.fromMillisecondsSinceEpoch(_callLogEntries.first.timestamp?? 1635400000000)
                     .toLocal().toString().split('.')[0].toString();
-                    _getCallerInfo(phoneNumber,konusmaSuresi,konusmaTarihi);}
+                    List<String>tarihVeSaat =konusmaTarihi.split(' ');
+                    _getCallerInfo(phoneNumber,konusmaSuresi,konusmaTarihi,tarihVeSaat);}
                   else {sirket = LastCallerStrings.emptyCallLog;}
                 },
                 child: const Text(HomeScreenStrings.pullLastCallerButton),
@@ -159,16 +176,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
   SizedBox spaceMedium() => const SizedBox(height: 20);
   SizedBox spaceSmall() => const SizedBox(height: 10);
-
 }
 
 // void minSec(int saniye) {
 //   double dakikaKusurat = saniye/60;
 //   int dakika = dakikaKusurat.toInt();
-  
 // }
 String minSec(String stringSaniye) {
   int saniye = int.parse(stringSaniye);
