@@ -50,7 +50,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           "_key_scf_siparis": 0,
           "_key_scf_teklif": 0,
           "_key_shy_servisformu": {"fisno": "000009"},
-          "_key_sis_kullanici": {"kullaniciadi": "ws"},
+          "_key_sis_kullanici": {"kullaniciadi": "ws"},// Arzu AYVAZ
           "_key_sis_rehber_karti": 0,
           "_key_sis_seviyekodu": 0,
           "gorusmesekli": 1,

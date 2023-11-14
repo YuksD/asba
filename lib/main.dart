@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ilkproje/screens/tasarim/tasarim.dart';
 import 'screens/home_screen.dart';
 //import 'screens/input_screen.dart';
 
@@ -20,6 +21,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/home',
       routes: {
         '/home': (context) => HomeScreen(),
+       // '/home': (context) => HomeScreen(),
+
         //'/input': (context) => InputScreen(), // Giriş ekranını başlatan rota
       },
     );
