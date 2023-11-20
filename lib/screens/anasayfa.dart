@@ -146,49 +146,61 @@ class _AnaSayfaState extends State<AnaSayfa> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8, // Ekranın yarısı kadar genişlik
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                        labelText: HomeScreenStrings.textBox1,
-                          ),
-                        ),
-                      ),
-                    spaceSmall(),
-        
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8, // Ekranın yarısı kadar genişlik
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                        labelText: HomeScreenStrings.textBox2,
-                          ),
-                        ),
-                      ),
+                  metinKutusu1(context),
+                  spaceSmall(),
+                  metinKutusu2(context),
                     ],
                   ),
-                  spaceMedium(),
-            
-              ElevatedButton(
-                onPressed: () {
-                  if (_callLogEntries.isNotEmpty) {
-                    String phoneNumber = _callLogEntries.first.number ?? LastCallerStrings.noData;
-                    String konusmaSuresi = _callLogEntries.first.duration.toString();
-                    String konusmaTarihi = DateTime.fromMillisecondsSinceEpoch(_callLogEntries.first.timestamp?? 1635400000000)
-                    .toLocal().toString().split('.')[0].toString();
-                    _getCallerInfo(phoneNumber,konusmaSuresi,konusmaTarihi);}
-                  else {sirket = LastCallerStrings.emptyCallLog;}
-                },
-                child: const Text(HomeScreenStrings.pullLastCallerButton),
-              ),
+
+              spaceMedium(),
+
+              kisiBilgisiAlButonu(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  SizedBox metinKutusu1(BuildContext context) {
+    return SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8, // Ekranın yarısı kadar genişlik
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                      labelText: HomeScreenStrings.textBox1,
+                        ),
+                      ),
+                    );
+  }
+
+  SizedBox metinKutusu2(BuildContext context) {
+    return SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8, // Ekranın yarısı kadar genişlik
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                      labelText: HomeScreenStrings.textBox2,
+                        ),
+                      ),
+                    );
+  }
+
+  ElevatedButton kisiBilgisiAlButonu() {
+    return ElevatedButton(
+              onPressed: () {
+                if (_callLogEntries.isNotEmpty) {
+                  String phoneNumber = _callLogEntries.first.number ?? LastCallerStrings.noData;
+                  String konusmaSuresi = _callLogEntries.first.duration.toString();
+                  String konusmaTarihi = DateTime.fromMillisecondsSinceEpoch(_callLogEntries.first.timestamp?? 1635400000000)
+                  .toLocal().toString().split('.')[0].toString();
+                  _getCallerInfo(phoneNumber,konusmaSuresi,konusmaTarihi);}
+                else {sirket = LastCallerStrings.emptyCallLog;}
+              },
+              child: const Text(HomeScreenStrings.pullLastCallerButton),
+            );
   }
   SizedBox spaceMedium() => const SizedBox(height: 20);
   SizedBox spaceSmall() => const SizedBox(height: 10);
