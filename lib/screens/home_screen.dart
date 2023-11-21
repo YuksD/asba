@@ -2,6 +2,9 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:call_log/call_log.dart';
 import 'package:ilkproje/components/caller_info.dart';
+import 'package:ilkproje/sanat/widgets/baslik.dart';
+import 'package:ilkproje/sanat/widgets/gts_card.dart';
+import 'package:ilkproje/sanat/widgets/gts_card_onlytitle.dart';
 import 'package:ilkproje/screens/gts.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ilkproje/constants/last_caller.dart';
@@ -83,84 +86,92 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(HomeScreenStrings.title)),
-      body: Center(
+      appBar: AppBar(elevation: 0,backgroundColor: const Color.fromARGB(255, 24, 147, 124),
+          title: Baslik(baslik: 'GTS Not Ekleyici'),
+          centerTitle: true,
+          actions: const [Icon(Icons.person_4_sharp,color: Color.fromARGB(255, 232, 245, 243), size: 30), SizedBox(width: 20,)],
+        ),
+      body: Container(decoration: 
+       const BoxDecoration(gradient: LinearGradient(colors: [Color.fromARGB(255, 254, 255, 255),Color.fromARGB(255, 139, 205, 186),], begin: Alignment.topCenter,end: Alignment.bottomRight)),height: 600,width: double.infinity,
         child: SingleChildScrollView(
-          child: Row(
-            children: [
-              //Container(child: GetSessionID(),),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  // LastCallerInfo(
-                  //   title: LastCallerStrings.name,
-                  //   content: isim ?? LastCallerStrings.noData),
-                  // spaceSmall(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: 5,),
+          
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Row(children: [
+                  GTSCard(title: isim, subtitle: numara,iconData: Icons.person),
+                  SizedBox(height: 5,),
+                  GTSCardOnlyTitle(title: sirket,iconData: Icons.home_work_outlined),
+                
+                
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  children: [
+                    GTSCard(title: saat, subtitle: tarih, iconData: Icons.calendar_month_outlined),
+                    Spacer(),
+                    GTSCardOnlyTitle(title: sure,iconData: Icons.watch_later_outlined),
+                  ],
+                ),
+              ),
               
-                  // LastCallerInfo(
-                  //   title: LastCallerStrings.phoneNumber,
-                  //   content: numara ?? LastCallerStrings.noData),
-                  // spaceSmall(),
-              
-                  // LastCallerInfo(
-                  //   title: LastCallerStrings.company,
-                  //   content: sirket ?? LastCallerStrings.noData),
-                  // spaceSmall(),
-                      
-                  // LastCallerInfo(
-                  //   title: LastCallerStrings.callDuration,
-                  //   content: minSec(sure??'6000')),
-                  // spaceSmall(),
+                spaceSmall(),
+          
+              SizedBox(
+                child: TextField(
+                  onChanged: (String metin){
+                    konuAl = metin;
+                    debugPrint(konuAl);
+                  },
+                  textCapitalization: TextCapitalization.sentences,
+                  maxLines: 2,
+                  decoration: InputDecoration(hintText: 'Lütfen  Giriniz.',hintStyle: TextStyle(color: Color.fromARGB(73, 0, 0, 0)),labelText: 'konu',labelStyle: TextStyle(color: Color.fromARGB(255, 6, 161, 130),fontWeight: FontWeight.w500, letterSpacing: 3),alignLabelWithHint: false,floatingLabelBehavior: FloatingLabelBehavior.always,border: 
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(25),),fillColor: Color.fromARGB(129, 253, 251, 251), filled: true),
+                    ),
+              ),
+                spaceSmall(),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  onChanged: (String metin){
+                    aciklamaAl = metin;
+                    debugPrint(aciklamaAl);
+                  },
+                  textCapitalization: TextCapitalization.sentences,
+                  maxLines: 6,
+                  decoration: InputDecoration(hintText: 'Lütfen Açıklama Giriniz.',hintStyle: TextStyle(color: Color.fromARGB(73, 0, 0, 0)),labelText: 'Açıklama',labelStyle: TextStyle(color: Color.fromARGB(255, 6, 161, 130),fontWeight: FontWeight.w500, letterSpacing: 3),alignLabelWithHint: false,floatingLabelBehavior: FloatingLabelBehavior.always,border: 
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(25),),fillColor: Color.fromARGB(129, 253, 251, 251), filled: true),
+                    ),
+              ),
+
+
+              // SizedBox(
+              //   width: MediaQuery.of(context).size.width * 0.8, // Ekranın yarısı kadar genişlik
+              //   child: TextField(
+              //     onChanged: (String metin){
+              //       aciklamaAl = metin;
+              //     },                      
+              //     decoration: InputDecoration(
+              //       border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(10.0)),
+              //       labelText: HomeScreenStrings.textBox2,
+              //         ),
+              //       ),
+              //     ),
+                  spaceMedium(),
                   
-                  // LastCallerInfo(
-                  //   title: LastCallerStrings.callDate,
-                  //   content: tarih ?? LastCallerStrings.noData),
-                  // spaceSmall(),
-              
-                  // LastCallerInfo(
-                  //   title: LastCallerStrings.callHour,
-                  //   content: saat ?? LastCallerStrings.noData),
-                  // spaceSmall(),
-              
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.8, // Ekranın yarısı kadar genişlik
-                        child: TextField(
-                          onChanged: (String metin){
-                            konuAl = metin;
-                            debugPrint(konuAl);
-                          },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                            labelText: HomeScreenStrings.textBox1,
-                              ),
-                            ),
-                          ),
-                        spaceSmall(),
-                      
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.8, // Ekranın yarısı kadar genişlik
-                        child: TextField(
-                          onChanged: (String metin){
-                            aciklamaAl = metin;
-                          },                      
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                            labelText: HomeScreenStrings.textBox2,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      spaceMedium(),
-                      
-                  // ElevatedButton(onPressed: () {
-                  //   sure = minSec(sure).toString();
-                  // }, child: Text('sure')),
+              // ElevatedButton(onPressed: () {
+              //   sure = minSec(sure).toString();
+              // }, child: Text('sure')),
+              Row(
+                children: [
                   ElevatedButton(
                     onPressed: () {
                       if (_callLogEntries.isNotEmpty) {
@@ -175,17 +186,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: const Text(HomeScreenStrings.pullLastCallerButton),
                   ),
-                  GetSessionID(saat: saat, konu: konuAl,aciklama: aciklamaAl,sure: sure, tarih: tarih),
-                  
-                  ElevatedButton(onPressed: () {
-                     isim = isim2;
-                     numara = numara2;
-                     sirket = sirket2;
-                     sure = sure2;
-                     tarih = tarih2; 
-                  }, child: const Text('İkinci Faz'))
+              GetSessionID(saat: saat, konu: konuAl,aciklama: aciklamaAl,sure: sure, tarih: tarih),
                 ],
               ),
+              
+              // ElevatedButton(onPressed: () {
+              //    isim = isim2;
+              //    numara = numara2;
+              //    sirket = sirket2;
+              //    sure = sure2;
+              //    tarih = tarih2; 
+              // }, child: const Text('İkinci Faz'))
             ],
           ),
         ),
@@ -333,3 +344,37 @@ String minSec(String stringSaniye) {
 //      );
 //   }
 // }
+
+
+
+// -----
+
+              // LastCallerInfo(
+              //   title: LastCallerStrings.name,
+              //   content: isim ?? LastCallerStrings.noData),
+              // spaceSmall(),
+          
+              // LastCallerInfo(
+              //   title: LastCallerStrings.phoneNumber,
+              //   content: numara ?? LastCallerStrings.noData),
+              // spaceSmall(),
+          
+              // LastCallerInfo(
+              //   title: LastCallerStrings.company,
+              //   content: sirket ?? LastCallerStrings.noData),
+              // spaceSmall(),
+                  
+              // LastCallerInfo(
+              //   title: LastCallerStrings.callDuration,
+              //   content: minSec(sure??'6000')),
+              // spaceSmall(),
+              
+              // LastCallerInfo(
+              //   title: LastCallerStrings.callDate,
+              //   content: tarih ?? LastCallerStrings.noData),
+              // spaceSmall(),
+          
+              // LastCallerInfo(
+              //   title: LastCallerStrings.callHour,
+              //   content: saat ?? LastCallerStrings.noData),
+              // spaceSmall(),
