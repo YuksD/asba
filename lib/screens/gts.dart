@@ -97,13 +97,22 @@ import 'package:flutter/material.dart';
 
 
 class GetSessionID extends StatefulWidget {
-  const GetSessionID({super.key});
+  final String saat;
+  final String konu;
+  final String aciklama;
+  final String sure;
+  final String tarih;
 
+
+
+  const GetSessionID({super.key, required this.saat, required this.konu, required this.aciklama, required this.sure, required this.tarih});
   @override
+  
   State<GetSessionID> createState() => _GetSessionIDState();
 }
 
 class _GetSessionIDState extends State<GetSessionID> {
+  
   String? session_id;
   String? mesaj;
   Future PostLogin() async {
@@ -147,7 +156,7 @@ class _GetSessionIDState extends State<GetSessionID> {
 
 
 
-  Future PostGtsNotlarEkle() async {
+  Future PostGtsNotlarEkle(saat2,konu,aciklama,sure,tarih) async {
   try{
   //String session_id = ""; // SESSION ID MANUEL YAZILMALI
   int firma_kodu = 20;
@@ -164,8 +173,8 @@ class _GetSessionIDState extends State<GetSessionID> {
               "_key_gts_gorev": 0,
               "_key_gts_gorusme_kategori": 0,
               "_key_gts_gorusme_kategorileri": null,
-              "_key_scf_carikart": {"__dinamik__1": "Z.70"},
-              "_key_scf_satiselemani": {"kodu" : "user"}
+              "_key_scf_carikart": {"carikartkodu": "Z.70"},
+              "_key_scf_satiselemani": 0,
               "_key_scf_siparis": 0,
               "_key_scf_teklif": 0,
               "_key_shy_servisformu": {"fisno": "000001"},
@@ -173,17 +182,17 @@ class _GetSessionIDState extends State<GetSessionID> {
               "_key_sis_rehber_karti": 0,
               "_key_sis_seviyekodu": 0,
               "gorusmesekli": 1,
-              "harcananzaman": "17.00",
+              "harcananzaman": "$sure",
               "harcananzamanturu": "D",
-              "konu": "enerciii",
-              "note": "burasi degistiyse bu is tamamdir",
-              "saat": "15:55:18",
-              "tarih": "2017-03-25"
+              "konu":"$konu",
+              "note": "$aciklama",
+              "saat": "$saat2",
+              "tarih": "$tarih"
               }
 
     }
 }
-  """;
+  """; // "2017-03-25"
 
   var response = await http.post(
     Uri.parse(wsAdres),
@@ -210,12 +219,17 @@ class _GetSessionIDState extends State<GetSessionID> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
        children: [
-         ElevatedButton(onPressed: PostLogin, child: Text('POST LOGIN')),
-         ElevatedButton(onPressed: PostGtsNotlarEkle, child: Text('POST GTS_NOTLAR_EKLE')),
+         ElevatedButton(onPressed: PostLogin, child: Text('LOGIN')),
+         ElevatedButton(
+  onPressed: () async {
+    await PostGtsNotlarEkle(widget.saat,widget.konu,widget.aciklama,widget.sure,widget.tarih);
+  },
+  child: Text('NOT EKLE'),
+),
         
-         Container(color: Colors.blue,height: 200,width: 200),
+         //Container(color: Colors.blue,height: 200,width: 200),
        ],
      );
   }

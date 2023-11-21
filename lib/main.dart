@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/home',
       routes: {
-        '/home': (context) => SanatSepet(),
-       // '/home': (context) => HomeScreen(),
+       // '/home': (context) => SanatSepet(),
+        '/home': (context) => HomeScreen(),
 
         //'/input': (context) => InputScreen(), // Giriş ekranını başlatan rota
       },

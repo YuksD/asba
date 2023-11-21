@@ -23,14 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
   String numara = '05554443322';
   String sirket = 'Gediksiz';
   String sure = '671';
-  String tarih = '11:11:1111 11:11';
+  String tarih = '2023-10-12 12:12:12';
   String saat = '10:10:10';
 
   String isim2 = 'Osman';
   String numara2 = '05255252525';
   String sirket2 = 'Sertel';
   String sure2 = '1322';
-  String tarih2 = '12:12:1212 12:12';
+  String tarih2 = '2023-10-12 12:12:12';
 
   String konuAl = '';
   String aciklamaAl = '';
@@ -75,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           isim = LastCallerStrings.noData;
           sirket = LastCallerStrings.noData;
+          sure = minSec(sure);
         });
     } 
   }
@@ -87,39 +88,39 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           child: Row(
             children: [
-              Container(child: GetSessionID(),),
+              //Container(child: GetSessionID(),),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  LastCallerInfo(
-                    title: LastCallerStrings.name,
-                    content: isim ?? LastCallerStrings.noData),
-                  spaceSmall(),
+                  // LastCallerInfo(
+                  //   title: LastCallerStrings.name,
+                  //   content: isim ?? LastCallerStrings.noData),
+                  // spaceSmall(),
               
-                  LastCallerInfo(
-                    title: LastCallerStrings.phoneNumber,
-                    content: numara ?? LastCallerStrings.noData),
-                  spaceSmall(),
+                  // LastCallerInfo(
+                  //   title: LastCallerStrings.phoneNumber,
+                  //   content: numara ?? LastCallerStrings.noData),
+                  // spaceSmall(),
               
-                  LastCallerInfo(
-                    title: LastCallerStrings.company,
-                    content: sirket ?? LastCallerStrings.noData),
-                  spaceSmall(),
+                  // LastCallerInfo(
+                  //   title: LastCallerStrings.company,
+                  //   content: sirket ?? LastCallerStrings.noData),
+                  // spaceSmall(),
                       
-                  LastCallerInfo(
-                    title: LastCallerStrings.callDuration,
-                    content: minSec(sure??'6000')),
-                  spaceSmall(),
+                  // LastCallerInfo(
+                  //   title: LastCallerStrings.callDuration,
+                  //   content: minSec(sure??'6000')),
+                  // spaceSmall(),
                   
-                  LastCallerInfo(
-                    title: LastCallerStrings.callDate,
-                    content: tarih ?? LastCallerStrings.noData),
-                  spaceSmall(),
+                  // LastCallerInfo(
+                  //   title: LastCallerStrings.callDate,
+                  //   content: tarih ?? LastCallerStrings.noData),
+                  // spaceSmall(),
               
-                  LastCallerInfo(
-                    title: LastCallerStrings.callHour,
-                    content: saat ?? LastCallerStrings.noData),
-                  spaceSmall(),
+                  // LastCallerInfo(
+                  //   title: LastCallerStrings.callHour,
+                  //   content: saat ?? LastCallerStrings.noData),
+                  // spaceSmall(),
               
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,10 +158,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       spaceMedium(),
                       
-                
+                  // ElevatedButton(onPressed: () {
+                  //   sure = minSec(sure).toString();
+                  // }, child: Text('sure')),
                   ElevatedButton(
                     onPressed: () {
                       if (_callLogEntries.isNotEmpty) {
+                        
                         String phoneNumber = _callLogEntries.first.number ?? LastCallerStrings.noData;
                         String konusmaSuresi = _callLogEntries.first.duration.toString();
                         String konusmaTarihi = DateTime.fromMillisecondsSinceEpoch(_callLogEntries.first.timestamp?? 1635400000000)
@@ -171,6 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: const Text(HomeScreenStrings.pullLastCallerButton),
                   ),
+                  GetSessionID(saat: saat, konu: konuAl,aciklama: aciklamaAl,sure: sure, tarih: tarih),
                   
                   ElevatedButton(onPressed: () {
                      isim = isim2;
@@ -201,7 +206,7 @@ String minSec(String stringSaniye) {
   int dakika = saniye ~/ 60; // Saniyeleri dakika cinsinden hesapla
   int kalanSaniye = saniye % 60; // Kalan saniyeleri hesapla
 
-  return '$dakika dakika $kalanSaniye saniye';
+  return '$dakika.$kalanSaniye';
 }
 
 

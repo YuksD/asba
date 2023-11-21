@@ -21,11 +21,11 @@ class GTSCardOnlyTitle extends StatelessWidget {
             textColor: Color.fromARGB(255, 24, 147, 124),
             dense: true,
             contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-            title: Text(title,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14)),
+            title: Text(title,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 15)),
             //subtitle: Text(subtitle),
             iconColor: Color.fromARGB(255, 24, 147, 124),
             tileColor: Color.fromARGB(255, 244, 249, 248),
-            leading: Icon(iconData),
+            leading: Icon(iconData, size: 30,),
           
           
                 ),

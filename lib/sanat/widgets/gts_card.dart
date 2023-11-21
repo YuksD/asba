@@ -22,10 +22,10 @@ class GTSCard extends StatelessWidget {
             dense: true,
             contentPadding: const EdgeInsets.symmetric(horizontal: 8),
             title: Text(title,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14)),
-            subtitle: Text(subtitle),
+            subtitle: Text(subtitle,style: TextStyle(fontSize: 13)),
             iconColor: Color.fromARGB(255, 24, 147, 124),
             tileColor: Color.fromARGB(255, 244, 249, 248),
-            leading: Icon(iconData),
+            leading: Icon(iconData,size: 30),
           
           
                 ),
