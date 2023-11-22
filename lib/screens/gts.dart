@@ -115,6 +115,7 @@ class _GetSessionIDState extends State<GetSessionID> {
   
   String? session_id;
   String? mesaj;
+  String testmesaj = 'bos';
   Future PostLogin() async {
   try{
   //String session_id = ""; // SESSION ID MANUEL YAZILMALI
@@ -221,9 +222,36 @@ class _GetSessionIDState extends State<GetSessionID> {
   Widget build(BuildContext context) {
     return Row(
        children: [
-         ElevatedButton(onPressed: PostLogin, child: Text('LOGIN')),
-         ElevatedButton(
+         ElevatedButton(style: ElevatedButton.styleFrom(
+              
+              backgroundColor: Color.fromARGB(255, 24, 147, 124),
+              foregroundColor: Colors.white, 
+              side: BorderSide(color: Colors.white, width: 1.8, ),
+              elevation: 1
+          
+
+               
+            ),onPressed: (){
+              setState(() {
+                
+              });
+              PostLogin();} , child: Text('LOGIN')),
+
+            SizedBox(width: 15,),
+         ElevatedButton(style: ElevatedButton.styleFrom(
+              
+              backgroundColor: Color.fromARGB(255, 24, 147, 124),
+              foregroundColor: Colors.white, 
+              side: BorderSide(color: Colors.white, width: 1.8, ),
+              elevation: 1
+          
+
+               
+            ),
   onPressed: () async {
+    setState(() {
+      
+    });
     await PostGtsNotlarEkle(widget.saat,widget.konu,widget.aciklama,widget.sure,widget.tarih);
   },
   child: Text('NOT EKLE'),

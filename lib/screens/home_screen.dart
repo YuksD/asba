@@ -69,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
           tarih = tarihVeSaat[0];
           saat = tarihVeSaat[1];
           sure = konusmaSuresi;
+          sure = minSec(sure);
           numara = phoneNumber;
           isim = lastCaller.displayName ?? LastCallerStrings.noData;
           sirket = lastCaller.company ?? LastCallerStrings.noData;
@@ -115,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   children: [
                     GTSCard(title: saat, subtitle: tarih, iconData: Icons.calendar_month_outlined),
-                    Spacer(),
+                  SizedBox(height: 5,),
                     GTSCardOnlyTitle(title: sure,iconData: Icons.watch_later_outlined),
                   ],
                 ),
@@ -123,17 +124,23 @@ class _HomeScreenState extends State<HomeScreen> {
               
                 spaceSmall(),
           
-              SizedBox(
-                child: TextField(
-                  onChanged: (String metin){
-                    konuAl = metin;
-                    debugPrint(konuAl);
-                  },
-                  textCapitalization: TextCapitalization.sentences,
-                  maxLines: 2,
-                  decoration: InputDecoration(hintText: 'Lütfen  Giriniz.',hintStyle: TextStyle(color: Color.fromARGB(73, 0, 0, 0)),labelText: 'konu',labelStyle: TextStyle(color: Color.fromARGB(255, 6, 161, 130),fontWeight: FontWeight.w500, letterSpacing: 3),alignLabelWithHint: false,floatingLabelBehavior: FloatingLabelBehavior.always,border: 
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(25),),fillColor: Color.fromARGB(129, 253, 251, 251), filled: true),
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  child: TextField(
+                    onChanged: (String metin){
+                      setState(() {
+                        
+                      konuAl = metin;
+                      });
+                      debugPrint(konuAl);
+                    },
+                    textCapitalization: TextCapitalization.sentences,
+                    maxLines: 2,
+                    decoration: InputDecoration(hintText: 'Lütfen Konu Giriniz.',hintStyle: TextStyle(color: Color.fromARGB(73, 0, 0, 0)),labelText: 'konu',labelStyle: TextStyle(color: Color.fromARGB(255, 6, 161, 130),fontWeight: FontWeight.w500, letterSpacing: 3),alignLabelWithHint: false,floatingLabelBehavior: FloatingLabelBehavior.always,border: 
+                      OutlineInputBorder(borderRadius: BorderRadius.circular(25),),fillColor: Color.fromARGB(129, 253, 251, 251), filled: true),
+                      ),
+                ),
               ),
                 spaceSmall(),
 
@@ -141,7 +148,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   onChanged: (String metin){
+                    setState(() {
                     aciklamaAl = metin;
+                      
+                    });
                     debugPrint(aciklamaAl);
                   },
                   textCapitalization: TextCapitalization.sentences,
@@ -170,9 +180,18 @@ class _HomeScreenState extends State<HomeScreen> {
               // ElevatedButton(onPressed: () {
               //   sure = minSec(sure).toString();
               // }, child: Text('sure')),
-              Row(
+              Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
+                  ElevatedButton(style: ElevatedButton.styleFrom(
+              
+              backgroundColor: Color.fromARGB(255, 24, 147, 124),
+              foregroundColor: Colors.white, 
+              side: BorderSide(color: Colors.white, width: 1.8, ),
+              elevation: 1
+          
+
+               
+            ),
                     onPressed: () {
                       if (_callLogEntries.isNotEmpty) {
                         
@@ -186,6 +205,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: const Text(HomeScreenStrings.pullLastCallerButton),
                   ),
+                  SizedBox(width: 15,)
+                  ,
               GetSessionID(saat: saat, konu: konuAl,aciklama: aciklamaAl,sure: sure, tarih: tarih),
                 ],
               ),
@@ -219,6 +240,9 @@ String minSec(String stringSaniye) {
 
   return '$dakika.$kalanSaniye';
 }
+
+
+
 
 
 // class GetSessionID extends StatefulWidget {
